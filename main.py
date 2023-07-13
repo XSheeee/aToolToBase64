@@ -7,7 +7,7 @@ def dencryptTextEnterFunction():
     denc=base64.b85decode(toDen).decode("utf-8")
     enterButton.place_forget()
     deputyLabel=tk.Label(mainWindow,text=f"解密后的内容为{denc}\n当然，它也被保存到了./File/toFile/den.txt中",font=('Arial',14))
-    den=open("./File/toFile/den.txt","w")
+    den=open("./File/toFile/den.txt","w",encoding="utf-8")
     den.write(denc)
     den.close()
     backButton=tk.Button(mainWindow,text="返回",width=10,height=3,command=a2)
