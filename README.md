@@ -9,7 +9,7 @@
 
 #### 安装教程
 
-    您可以在仓库的./File/program文件夹中找到program.exe,这是通过pyinstaller打包后的可执行文件，您可以把它运行在Windows平台上
+    您可以在仓库的./File/program文件夹中或根目录找到program.exe,这是通过pyinstaller打包后的可执行文件，您可以把它运行在Windows平台上
     
     如果您有python环境，您可以把项目克隆下来
 

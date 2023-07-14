@@ -1,10 +1,33 @@
 #项目开源地址：https://gitee.com/XShee/a-tool-to-base64
-import tkinter as tk,base64,os,tkinter.filedialog
+#本文件为源代码
+import tkinter as tk,base64,os,tkinter.filedialog,easygui
+def decryptImage():
+    print("image")
+    global backButton,deputyLabel
+    backButton=tk.Button(mainWindow,text="返回",width=10,height=3,command=a4)
+    deputyLabel=tk.Label(mainWindow,text="解密后的图片已保存到./File/toFile/ded.jpg中",font=('Arial',14))
+    toPicture=os.path.exists('./File/toFile/ienc.jbXS')
+    if not toPicture:
+        easygui.msgbox("没有加密文件，回去吧您内")
+        main(5)
+    else:
+        toPicture=open("./File/toFile/ienc.jbXS","rb")
+        ded=base64.b64decode(toPicture.read())
+        picture=open("./File/toFile/ded.jpg","wb")
+        picture.write(ded)
+        picture.close()
+        toPicture.close()
+        deputyLabel.place(x=230,y=250)
+        backButton.place(x=380,y=350)
 def selectPicture():
+    global deputyLabel,backButton
     selectPictureK=tkinter.filedialog.askopenfilename(initialdir=str(os.path.expanduser("~\Downloads")),title="请选择要加密的图片")
     imageFile=open(selectPictureK,"rb")
     toIB=base64.b64encode(imageFile.read())
     imageFile.close()
+    ff=os.path.exists('./File/toFile')
+    if not ff:
+        os.makedirs('./File/toFile')
     eniFile=open("./File/toFile/ienc.jbXS","wb")
     eniFile.write(toIB)
     eniFile.close()
@@ -25,6 +48,8 @@ def dencryptTextEnterFunction():
     backButton=tk.Button(mainWindow,text="返回",width=10,height=3,command=a2)
     backButton.place(x=380,y=350)
     deputyLabel.place(x=230,y=250)
+def a4():
+    main(4)
 def a3():
     main(3)
 def a2():
@@ -73,12 +98,22 @@ def decryptTextFunction():
     mainTitle.place(x=210,y=0)
     enterButton.place(x=440,y=230)
 def decryptImageFunction():
+    global enterButton
     print('decryptImage')
-    
+    #组件遗忘区
+    decryptImageButton.place_forget()
+    decryptTextButton.place_forget()
+    buttonDecrypt.place_forget()
+    buttonEncryption.place_forget()
+    #组件
+    mainTitle=tk.Label(mainWindow,text="请确认./File/toFile/中有ienc.jbXS",font=('Arial',14),width=40,height=3)
+    enterButton=tk.Button(mainWindow,text="确认",width=10,height=3,bg="gray",command=decryptImage)
+    #放置区
+    mainTitle.place(x=210,y=0)
+    enterButton.place(x=380,y=350)
 def encryptionImageFunction():
     global selectPictureButton
     print('encryptionImage')
-    
     #组件遗忘区
     encryptionImageButton.place_forget()
     encryptionTextButton.place_forget()
@@ -126,8 +161,8 @@ def main(status):
         mainWindow.geometry('900x500')
         #主窗口的各种组件
         mainTitle=tk.Label(mainWindow,text="一款可以加密解密文字图片的开源小工具!",font=('Arial',14),width=40,height=3)
-        buttonEncryption=tk.Button(mainWindow,text="加密文字/图片",width=30,height=17,bg='white',command=encryptionFunction)
-        buttonDecrypt=tk.Button(mainWindow,text="解密文字/图片",width=30,height=17,bg='white',command=decryptFunction)
+        buttonEncryption=tk.Button(mainWindow,text="加密文字/图片(仅支持.jpg格式)",width=30,height=17,bg='white',command=encryptionFunction)
+        buttonDecrypt=tk.Button(mainWindow,text="解密文字/图片(仅支持以\njpg格式加密的图片)",width=30,height=17,bg='white',command=decryptFunction)
         #主窗口组件放置区
         mainTitle.place(x=210,y=0)
         buttonEncryption.place(x=90,y=140)
@@ -141,8 +176,8 @@ def main(status):
         enterButton.place_forget()
         #主窗口的各种组件
         mainTitle=tk.Label(mainWindow,text="一款可以加密解密文字图片的开源小工具!",font=('Arial',14),width=40,height=3)
-        buttonEncryption=tk.Button(mainWindow,text="加密文字/图片",width=30,height=17,bg='white',command=encryptionFunction)
-        buttonDecrypt=tk.Button(mainWindow,text="解密文字/图片",width=30,height=17,bg='white',command=decryptFunction)
+        buttonEncryption=tk.Button(mainWindow,text="加密文字/图片(仅支持.jpg格式)",width=30,height=17,bg='white',command=encryptionFunction)
+        buttonDecrypt=tk.Button(mainWindow,text="解密文字/图片(仅支持以\njpg格式加密的图片)",width=30,height=17,bg='white',command=decryptFunction)
         #主窗口组件放置区
         mainTitle.place(x=210,y=0)
         buttonEncryption.place(x=90,y=140)
@@ -152,8 +187,8 @@ def main(status):
         backButton.place_forget()
         #主窗口的各种组件
         mainTitle=tk.Label(mainWindow,text="一款可以加密解密文字图片的开源小工具!",font=('Arial',14),width=40,height=3)
-        buttonEncryption=tk.Button(mainWindow,text="加密文字/图片",width=30,height=17,bg='white',command=encryptionFunction)
-        buttonDecrypt=tk.Button(mainWindow,text="解密文字/图片",width=30,height=17,bg='white',command=decryptFunction)
+        buttonEncryption=tk.Button(mainWindow,text="加密文字/图片(仅支持.jpg格式)",width=30,height=17,bg='white',command=encryptionFunction)
+        buttonDecrypt=tk.Button(mainWindow,text="解密文字/图片(仅支持以\njpg格式加密的图片)",width=30,height=17,bg='white',command=decryptFunction)
         #主窗口组件放置区
         mainTitle.place(x=210,y=0)
         buttonEncryption.place(x=90,y=140)
@@ -164,8 +199,30 @@ def main(status):
         selectPictureButton.place_forget()
         #主窗口的各种组件
         mainTitle=tk.Label(mainWindow,text="一款可以加密解密文字图片的开源小工具!",font=('Arial',14),width=40,height=3)
-        buttonEncryption=tk.Button(mainWindow,text="加密文字/图片",width=30,height=17,bg='white',command=encryptionFunction)
-        buttonDecrypt=tk.Button(mainWindow,text="解密文字/图片",width=30,height=17,bg='white',command=decryptFunction)
+        buttonEncryption=tk.Button(mainWindow,text="加密文字/图片(仅支持.jpg格式)",width=30,height=17,bg='white',command=encryptionFunction)
+        buttonDecrypt=tk.Button(mainWindow,text="解密文字/图片(仅支持以\njpg格式加密的图片)",width=30,height=17,bg='white',command=decryptFunction)
+        #主窗口组件放置区
+        mainTitle.place(x=210,y=0)
+        buttonEncryption.place(x=90,y=140)
+        buttonDecrypt.place(x=570,y=140)
+    elif status==4:
+        deputyLabel.place_forget()
+        backButton.place_forget()
+        enterButton.place_forget()
+        #主窗口的各种组件
+        mainTitle=tk.Label(mainWindow,text="一款可以加密解密文字图片的开源小工具!",font=('Arial',14),width=40,height=3)
+        buttonEncryption=tk.Button(mainWindow,text="加密文字/图片(仅支持.jpg格式)",width=30,height=17,bg='white',command=encryptionFunction)
+        buttonDecrypt=tk.Button(mainWindow,text="解密文字/图片(仅支持以\njpg格式加密的图片)",width=30,height=17,bg='white',command=decryptFunction)
+        #主窗口组件放置区
+        mainTitle.place(x=210,y=0)
+        buttonEncryption.place(x=90,y=140)
+        buttonDecrypt.place(x=570,y=140)
+    elif status==5:
+        enterButton.place_forget()
+        #主窗口的各种组件
+        mainTitle=tk.Label(mainWindow,text="一款可以加密解密文字图片的开源小工具!",font=('Arial',14),width=40,height=3)
+        buttonEncryption=tk.Button(mainWindow,text="加密文字/图片(仅支持.jpg格式)",width=30,height=17,bg='white',command=encryptionFunction)
+        buttonDecrypt=tk.Button(mainWindow,text="解密文字/图片(仅支持以\njpg格式加密的图片)",width=30,height=17,bg='white',command=decryptFunction)
         #主窗口组件放置区
         mainTitle.place(x=210,y=0)
         buttonEncryption.place(x=90,y=140)
