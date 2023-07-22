@@ -1,5 +1,6 @@
 #本文件为打包代码
-import tkinter as tk,base64,os,tkinter.filedialog,easygui,sys
+import tkinter as tk,base64,os,tkinter.filedialog,easygui,sys,shutil
+from PIL import Image
 # ————————————————
 # 版权声明：本文为CSDN博主「总裁余(余登武)」的原创文章，遵循CC 4.0 BY-SA版权协议，转载请附上原文出处链接及本声明。
 # 原文链接：https://blog.csdn.net/kobeyu652453/article/details/108732747
@@ -33,15 +34,44 @@ def decryptImage():
 def selectPicture():
     global deputyLabel,backButton
     selectPictureK=tkinter.filedialog.askopenfilename(initialdir=str(os.path.expanduser("~\Downloads")),title="请选择要加密的图片")
-    imageFile=open(selectPictureK,"rb")
-    toIB=base64.b64encode(imageFile.read())
-    imageFile.close()
-    ff=os.path.exists('./File/toFile')
-    if not ff:
-        os.makedirs('./File/toFile')
-    eniFile=open("./File/toFile/ienc.jbXS","wb")
-    eniFile.write(toIB)
-    eniFile.close()
+    selectPictureButton.place_forget()
+    imageEXT=os.path.splitext(selectPictureK)[-1]
+    if imageEXT=='.jpg':
+        imageFile=open(selectPictureK,"rb")
+        toIB=base64.b64encode(imageFile.read())
+        imageFile.close()
+        ff=os.path.exists('./File/toFile')
+        if not ff:
+            os.makedirs('./File/toFile')
+        eniFile=open("./File/toFile/ienc.jbXS","wb")
+        eniFile.write(toIB)
+        eniFile.close()
+    else:
+        if imageEXT=='.png':
+            sst=selectPictureK.rsplit(".",1)
+            outPath=sst[0]+".jpg"
+            ff=os.path.exists('./File/Cache')
+            if not ff:
+                os.makedirs('./File/Cache')
+            im=Image.open(selectPictureK)
+            im=im.convert("RGB")
+            im.save(outPath)
+            shutil.move(outPath,"./File/Cache/0.jpg")
+            imageFile=open("./File/Cache/0.jpg","rb")
+            toIB=base64.b64encode(imageFile.read())
+            imageFile.close()
+            ff=os.path.exists('./File/toFile')
+            if not ff:
+                os.makedirs('./File/toFile')
+            eniFile=open("./File/toFile/ienc.jbXS","wb")
+            eniFile.write(toIB)
+            eniFile.close()
+        else:
+            deputyLabel=tk.Label(mainWindow,text="不支持的图片格式，回到主界面",font=('Arial',14))
+            backButton=tk.Button(mainWindow,text="返回",width=10,height=3,command=a3)
+            backButton.place(x=380,y=350)
+            deputyLabel.place(x=230,y=250)
+            main()
     deputyLabel=tk.Label(mainWindow,text="加密后的内容已保存到./File/toFile/ienc.ibXS中",font=('Arial',14))
     backButton=tk.Button(mainWindow,text="返回",width=10,height=3,command=a3)
     backButton.place(x=380,y=350)
@@ -160,8 +190,7 @@ def decryptFunction():
     decryptImageButton.place(x=570,y=140)
 def main(status):
     if status==0:
-        global mainTitle,buttonDecrypt,buttonEncryption
-        global mainWindow
+        global mainTitle,buttonDecrypt,buttonEncryption,mainWindow
         #主窗口
         mainWindow=tk.Tk()
         #窗口标题
@@ -172,7 +201,7 @@ def main(status):
         mainWindow.geometry('900x500')
         #主窗口的各种组件
         mainTitle=tk.Label(mainWindow,text="一款可以加密解密文字图片的开源小工具!",font=('Arial',14),width=40,height=3)
-        buttonEncryption=tk.Button(mainWindow,text="加密文字/图片(仅支持.jpg格式)",width=30,height=17,bg='white',command=encryptionFunction)
+        buttonEncryption=tk.Button(mainWindow,text="加密文字/图片(仅支持.png/.jpg格式)",width=30,height=17,bg='white',command=encryptionFunction)
         buttonDecrypt=tk.Button(mainWindow,text="解密文字/图片(仅支持以\njpg格式加密的图片)",width=30,height=17,bg='white',command=decryptFunction)
         #主窗口组件放置区
         mainTitle.place(x=210,y=0)
@@ -207,7 +236,6 @@ def main(status):
     elif status==3:
         deputyLabel.place_forget()
         backButton.place_forget()
-        selectPictureButton.place_forget()
         #主窗口的各种组件
         mainTitle=tk.Label(mainWindow,text="一款可以加密解密文字图片的开源小工具!",font=('Arial',14),width=40,height=3)
         buttonEncryption=tk.Button(mainWindow,text="加密文字/图片(仅支持.jpg格式)",width=30,height=17,bg='white',command=encryptionFunction)
