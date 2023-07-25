@@ -2,7 +2,6 @@
 #本文件为源代码
 import tkinter as tk,base64,os,tkinter.filedialog,easygui,shutil
 from PIL import Image
-from pathlib import Path
 def decryptImage():
     print("image")
     global backButton,deputyLabel
