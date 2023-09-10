@@ -16,10 +16,3 @@
 #### 使用说明
 
     同上
-<<<<<<< HEAD:README.zh.md
-
-    
-
-
-=======
->>>>>>> 93dd36208c6380cdd3ae05f03a4a87501fcc7eae:README.md
