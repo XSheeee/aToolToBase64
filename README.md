@@ -1,8 +1,8 @@
 # aToolToBase64
 
 # 语言/Language
-    - zh_cn [简体中文](README.md)
-    - en [English](README.en.md)
+    - zh_cn [简体中文](./README.md)
+    - en [English](./README.en.md)
 
 #### 介绍
 一个半初学者用来练习做的可以加密/解密文字和图片的开源的有图形化界面的python小工具
